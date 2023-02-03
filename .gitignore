@@ -14,7 +14,7 @@
 /connect.lock
 /coverage
 /libpeerconnection.log
-/log*
+/.log*
 /out-tsc
 /typings
 Thumbs.db
