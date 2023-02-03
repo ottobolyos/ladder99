@@ -1,3 +1,0 @@
-message,time_delta
-"{""${deviceId}-status"":""offline""}",1
-"{""${deviceId}-status"":""online""}",1

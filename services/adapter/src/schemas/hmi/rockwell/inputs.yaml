@@ -1,6 +1,0 @@
-# output / cache id is deviceId + key, eg 'pa1-operator'
-#. see inputs-new.yaml
-
-inputs:
-  - key: operator
-    path: /foo/operator

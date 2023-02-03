@@ -1,5 +1,0 @@
-message,time_delta
-"{""${deviceId}-temperature"":30}",1
-"{""${deviceId}-temperature"":32}",1
-"{""${deviceId}-temperature"":34}",1
-"{""${deviceId}-temperature"":35}",1

@@ -1,5 +1,0 @@
-<Device id="$deviceId" name="$deviceName" sampleInterval="$sampleInterval" uuid="$uuid">
-  <Description manufacturer="ASC" model="autoclave" serialNumber="$serialNumber">
-    ASC autoclave
-  </Description>
-</Device>
