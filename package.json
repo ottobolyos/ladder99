@@ -2,7 +2,9 @@
   "name": "ladder99",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "commit:check": "commitlint"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "9.3.2",
@@ -14,6 +16,9 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "17.4.2",
+    "@commitlint/config-conventional": "17.4.2",
+    "@commitlint/prompt-cli": "17.4.2",
     "@nestjs/schematics": "9.0.4",
     "@nestjs/testing": "9.3.2",
     "@nrwl/eslint-plugin-nx": "15.6.3",
@@ -27,6 +32,7 @@
     "@types/node": "18.11.18",
     "@typescript-eslint/eslint-plugin": "5.50.0",
     "@typescript-eslint/parser": "5.50.0",
+    "commitlint-plugin-selective-scope": "1.0.1",
     "eslint": "8.33.0",
     "eslint-config-prettier": "8.6.0",
     "jest": "29.4.1",
