@@ -1,42 +1,159 @@
 {
-	"root": true,
+	// Note: Make sure `prettier` is the last item in `extends` array, as it overrides some ESLint configurations that are either unnecessary or might conflict with Prettier.
+	"extends": ["eslint:recommended", "plugin:import/recommended", "prettier"],
 	"ignorePatterns": ["**/*"],
-	"plugins": ["@nrwl/nx"],
 	"overrides": [
 		{
-			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+			"files": ["*.ts", "*.tsx", "*.js", "*.jsx", "*.cjs", "*.mjs"],
 			"rules": {
 				"@nrwl/nx/enforce-module-boundaries": [
 					"error",
 					{
-						"enforceBuildableLibDependency": true,
 						"allow": [],
 						"depConstraints": [
 							{
-								"sourceTag": "*",
-								"onlyDependOnLibsWithTags": ["*"]
+								"onlyDependOnLibsWithTags": ["*"],
+								"sourceTag": "*"
 							}
-						]
+						],
+						"enforceBuildableLibDependency": true
 					}
 				]
 			}
 		},
 		{
+			"extends": [
+				"plugin:@nrwl/nx/typescript",
+				"plugin:@typescript-eslint/eslint-recommended",
+				"plugin:@typescript-eslint/recommended"
+			],
 			"files": ["*.ts", "*.tsx"],
-			"extends": ["plugin:@nrwl/nx/typescript"],
-			"rules": {}
+			"rules": {
+				"@typescript-eslint/array-type": ["error", {"default": "array"}],
+				"@typescript-eslint/class-literal-property-style": ["error", "getters"],
+				"@typescript-eslint/explicit-function-return-type": "error",
+				"@typescript-eslint/explicit-member-accessibility": [
+					"error",
+					{"accessibility": "no-public"}
+				],
+				"@typescript-eslint/explicit-module-boundary-types": "error",
+				"@typescript-eslint/interface-name-prefix": "off",
+				"@typescript-eslint/no-explicit-any": "error",
+				"@typescript-eslint/no-floating-promises": ["error"],
+				"@typescript-eslint/no-non-null-assertion": "error",
+				"@typescript-eslint/no-unused-vars": "warn",
+				"@typescript-eslint/no-use-before-define": "error",
+				"@typescript-eslint/parameter-properties": "off",
+				"@typescript-eslint/prefer-includes": "error",
+				"@typescript-eslint/prefer-optional-chain": "error",
+				"@typescript-eslint/prefer-readonly": "error",
+				"@typescript-eslint/prefer-regexp-exec": "error",
+				"@typescript-eslint/require-array-sort-compare": [
+					"error",
+					{"ignoreStringArrays": true}
+				],
+				"@typescript-eslint/return-await": ["error", "always"],
+				"no-return-await": "off",
+				"no-use-before-define": "off"
+			}
 		},
 		{
-			"files": ["*.js", "*.jsx"],
 			"extends": ["plugin:@nrwl/nx/javascript"],
-			"rules": {}
+			"files": ["*.js", "*.jsx"],
+			"rules": {
+				"no-return-await": 2,
+				"no-use-before-define": "error"
+			}
 		},
 		{
-			"files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
 			"env": {
 				"jest": true
 			},
+			"files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
 			"rules": {}
 		}
-	]
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"project": "tsconfig.base.json",
+		"sourceType": "module"
+	},
+	"plugins": ["@nrwl/nx"],
+	"root": true,
+	"rules": {
+		"arrow-body-style": ["error", "as-needed"],
+		"curly": "error",
+		"for-direction": "error",
+		"import/first": "error",
+		"import/named": "error",
+		"import/newline-after-import": "error",
+		"import/no-duplicates": "error",
+		"import/no-unresolved": "off",
+		"import/no-unused-modules": "error",
+		"import/order": [
+			"error",
+			{
+				"alphabetize": {
+					"caseInsensitive": true,
+					"order": "asc"
+				},
+				"groups": [
+					"builtin",
+					"external",
+					["internal", "parent", "sibling", "index"],
+					["object", "type"]
+				],
+				"newlines-between": "always"
+			}
+		],
+		"new-cap": "off",
+		"no-case-declarations": "off",
+		"no-fallthrough": "off",
+		"no-lonely-if": "error",
+		"no-new-wrappers": "error",
+		"no-tabs": [
+			"error",
+			{
+				"allowIndentationTabs": true
+			}
+		],
+		"no-useless-concat": "error",
+		"no-var": "error",
+		"object-shorthand": "error",
+		"prefer-template": "error",
+		"sort-imports": [
+			"error",
+			{
+				"allowSeparatedGroups": true,
+				"ignoreCase": true,
+				"ignoreDeclarationSort": true,
+				"ignoreMemberSort": false,
+				"memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+			}
+		],
+		"sort-keys-custom-order/object-keys": "error",
+		"sort-keys-custom-order/type-keys": "error",
+		"sort-vars": [
+			"error",
+			{
+				"ignoreCase": true
+			}
+		],
+		"spaced-comment": ["error", "always"],
+		"tsdoc/syntax": "warn",
+		"unicorn/better-regex": "error",
+		"unicorn/catch-error-name": [
+			"error",
+			{
+				"name": "e"
+			}
+		],
+		"unicorn/consistent-destructuring": "error",
+		"unicorn/custom-error-definition": "error",
+		"unicorn/error-message": "error",
+		"unicorn/prefer-module": "error",
+		"unicorn/prefer-node-protocol": "error",
+		"wrap-regex": "off"
+	}
 }
