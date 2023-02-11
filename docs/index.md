@@ -11,4 +11,6 @@
 ## Table of Contents
 
 - Development
+  - [Commit messages](development/commit_messages)
   - [Roadmap](development/roadmap)
+  - [TODO](development/todo)
