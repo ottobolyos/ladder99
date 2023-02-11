@@ -25,10 +25,11 @@ appsLibsFolders.forEach(f => {
 const docsFolder = 'docs'
 const docsScopes = [
 	null,
-	...existsSync(docsFolder)
-		? readdirSync(docsFolder, {withFileTypes: true})
-			.map(i => i.isFile() ? i.name.replace(/\.md/, '') : i.name)
-		: []
+	...(existsSync(docsFolder)
+		? readdirSync(docsFolder, {withFileTypes: true}).map(i =>
+				i.isFile() ? i.name.replace(/\.md/, '') : i.name
+		  )
+		: []),
 ]
 
 const typesEnum = [
@@ -57,24 +58,27 @@ const typesEnum = [
 	'style',
 
 	// Commits, that add missing tests or correcting existing tests
-	'test'
+	'test',
 ]
 
 const typesEnumScoped = {
 	chore: [null, 'build', 'ci', 'deps'],
 	docs: docsScopes,
-	...typesEnum.filter(i => i !== 'chore' && i !== 'docs').reduce((a, c) => ({...a, [c]: appsLibsScopes}), {})
+	...typesEnum
+		.filter(i => i !== 'chore' && i !== 'docs')
+		.reduce((a, c) => ({...a, [c]: appsLibsScopes}), {}),
 }
 
 module.exports = {
 	extends: ['@commitlint/config-conventional'],
 	formatter: '@commitlint/format',
 	// TODO: Change this URL to our Wiki page with the description of the commit message format.
-	helpUrl: 'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
+	helpUrl:
+		'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
 	parserPreset: {
 		parserOpts: {
-			issuePrefixes: ['#']
-		}
+			issuePrefixes: ['#'],
+		},
 	},
 	plugins: ['selective-scope'],
 	rules: {
@@ -88,12 +92,16 @@ module.exports = {
 		'footer-max-line-length': [0, 'never', 0],
 		'header-full-stop': [2, 'never', '.'],
 		'header-max-length': [0, 'never', 0],
-		'scope-enum': [2, 'always', [...appsLibsScopes, ...docsScopes].filter(i => i !== null)],
+		'scope-enum': [
+			2,
+			'always',
+			[...appsLibsScopes, ...docsScopes].filter(i => i !== null),
+		],
 		'selective-scope': [2, 'always', typesEnumScoped],
 		'subject-case': [1, 'always', 'lower-case'],
 		'subject-empty': [2, 'never'],
 		'subject-full-stop': [2, 'never', '.'],
 		'type-case': [2, 'always', 'lower-case'],
-		'type-enum': [2, 'always', typesEnum]
-	}
+		'type-enum': [2, 'always', typesEnum],
+	},
 }

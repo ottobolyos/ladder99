@@ -3,46 +3,47 @@
 Every commit message should follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). The configurations is located in [`commitlint.config.js`](/commitlint.config.js) (TODO: We should probably update `helpUrl` to this documentation.).
 
 Currently, it is configured to accept the following types (first level) and scopes (second level; scope is always optional, i.e. it can be omitted, but when it is specified, it must be one from the list listed with a type; this list should not be trusted: always check the commit message using `commitlint` tool):
+
 - `chore`:
-   - description: ;
-   - current scopes:
-      - `build`;
-      - `ci`;
-      - `deps`;
+  - description: ;
+  - current scopes:
+    - `build`;
+    - `ci`;
+    - `deps`;
 - `docs`:
-   - description: ;
-   - scopes are all folder and file names located under `docs/`, with `.md` extensions removed from files;
-   - current scopes:
-      - `development`;
-      - `index`;
+  - description: ;
+  - scopes are all folder and file names located under `docs/`, with `.md` extensions removed from files;
+  - current scopes:
+    - `development`;
+    - `index`;
 - `feat`:
-   - description: ;
-   - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
-   - current scopes:
-      - `gateway`;
-      - `gateway|app`;
-      - `gateway|assets`;
-      - `gateway-e2e`;
-      - `gateway-e2e|gateway`;
-      - `gateway-e2e|support`;
+  - description: ;
+  - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
+  - current scopes:
+    - `gateway`;
+    - `gateway|app`;
+    - `gateway|assets`;
+    - `gateway-e2e`;
+    - `gateway-e2e|gateway`;
+    - `gateway-e2e|support`;
 - `fix`:
-   - description: ;
-   - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
+  - description: ;
+  - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
 - `perf`:
-   - description: ;
-   - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
+  - description: ;
+  - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
 - `refactor`:
-   - description: ;
-   - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
+  - description: ;
+  - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
 - `revert`:
-   - description: ;
-   - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
+  - description: ;
+  - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
 - `style`:
-   - description: ;
-   - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
+  - description: ;
+  - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`;
 - `test`:
-   - description: ;
-   - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`.
+  - description: ;
+  - scopes are all apps and libs names (folders under `apps/` and `libs/` folders) or apps/libs with a top-level module names separated with `|`.
 
 ## Check commit messages
 
