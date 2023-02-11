@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "commit:check": "commitlint",
-    "deps:update": "scripts/update_dependencies.sh"
+    "deps:update": "scripts/update_dependencies.sh",
+    "lint:fix": "prettier -w .",
+    "lint:check": "prettier -c ."
   },
   "private": true,
   "dependencies": {
