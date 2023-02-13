@@ -11,14 +11,9 @@ trim_trailing_whitespace = true
 [*.{pl,pm,php,sql,json,js,ts,jsx,tsx}]
 insert_final_newline = true
 
-[/package.json]
-indent_style = space
-
-[*.md]
-indent_size = 3
+[{package.json,*.md}]
 indent_style = space
 
 [*.{yaml,yml}]
-indent_size = 2
 indent_style = space
 insert_final_newline = true
