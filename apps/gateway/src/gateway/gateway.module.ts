@@ -5,8 +5,8 @@ import {OgmaModule} from '@ogma/nestjs-module'
 import {FastifyParser} from '@ogma/platform-fastify'
 
 import {DEFAULT_CONFIG} from './constant/default-config.constant'
-import {GatewayController} from './gateway.controller'
-import {GatewayService} from './gateway.service'
+import {GatewayController} from './controller/gateway.controller'
+import {GatewayService} from './service/gateway.service'
 import {Config} from './type/config.type'
 
 const envConfig = {

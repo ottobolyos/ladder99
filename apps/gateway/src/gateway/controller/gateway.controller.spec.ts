@@ -3,7 +3,7 @@ import {Test, TestingModule} from '@nestjs/testing'
 import {createProviderToken} from '@ogma/nestjs-module'
 
 import {GatewayController} from './gateway.controller'
-import {GatewayService} from './gateway.service'
+import {GatewayService} from '../service/gateway.service'
 
 describe('GatewayController', () => {
 	let gatewayController: GatewayController
