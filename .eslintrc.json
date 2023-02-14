@@ -79,7 +79,16 @@
 		"project": "tsconfig.base.json",
 		"sourceType": "module"
 	},
-	"plugins": ["@nrwl/nx"],
+	"plugins": [
+		"@nrwl/nx",
+		"@typescript-eslint",
+		"@typescript-eslint/eslint-plugin",
+		"eslint-plugin-tsdoc",
+		"import",
+		"jest",
+		"sort-keys-custom-order",
+		"unicorn"
+	],
 	"root": true,
 	"rules": {
 		"arrow-body-style": ["error", "as-needed"],
