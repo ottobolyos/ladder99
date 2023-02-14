@@ -22,16 +22,6 @@ appsLibsFolders.forEach(f => {
 	}
 })
 
-const docsFolder = 'docs'
-const docsScopes = [
-	null,
-	...(existsSync(docsFolder)
-		? readdirSync(docsFolder, {withFileTypes: true}).map(i =>
-				i.isFile() ? i.name.replace(/\.md/, '') : i.name
-		  )
-		: []),
-]
-
 const typesEnum = [
 	// Commits which affect build components (e.g. build tool, CI pipeline, dependencies, project version), miscellaneous commits (e.g. modifying `.gitignore`), or or other dev tools related stuff, not related to the code itself
 	'chore',
@@ -63,10 +53,10 @@ const typesEnum = [
 
 const typesEnumScoped = {
 	chore: [null, 'build', 'ci', 'deps'],
-	docs: docsScopes,
+	docs: [],
 	...typesEnum
 		.filter(i => i !== 'chore' && i !== 'docs')
-		.reduce((a, c) => ({...a, [c]: appsLibsScopes}), {}),
+		.reduce((a, c) => ({...a, [c]: c === 'style' ? [...appsLibsScopes, 'docs'] : appsLibsScopes}), {}),
 }
 
 module.exports = {
@@ -95,7 +85,7 @@ module.exports = {
 		'scope-enum': [
 			2,
 			'always',
-			[...appsLibsScopes, ...docsScopes].filter(i => i !== null),
+			[...appsLibsScopes, 'docs'].filter(i => i !== null),
 		],
 		'selective-scope': [2, 'always', typesEnumScoped],
 		'subject-case': [1, 'always', 'lower-case'],
