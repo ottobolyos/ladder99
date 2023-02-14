@@ -5,8 +5,21 @@
   "scripts": {
     "commit:check": "commitlint",
     "deps:update": "scripts/update_dependencies.sh",
-    "lint:fix": "prettier -w .",
-    "lint:check": "prettier -c ."
+    "lint:check": "nx run-many --all --target=lint",
+    "lint:check:errors": "nx run-many --all --target=lint --quiet",
+    "lint:fix": "nx run-many --all --target=lint --fix",
+    "style:check": "nx format:check",
+    "style:fix": "nx format:write",
+    "test": "nx run-many --all --target=test",
+    "test:cov": "nx run-many --all --target=test --coverage",
+    "test:cov:verb": "nx run-many --all --target=test --coverage --verbose",
+    "test:debug": "nx run-many --all --target=test",
+    "test:debug:verb": "nx run-many --all --target=test --verbose",
+    "test:e2e": "nx run-many --all --target=e2e",
+    "test:e2e:verb": "nx run-many --all --target=e2e --verbose",
+    "test:verb": "nx run-many --all --target=test --verbose",
+    "test:watch": "nx run-many --all --target=test --watch",
+    "test:watch:verb": "nx run-many --all --target=test --watch --verbose"
   },
   "private": true,
   "dependencies": {
