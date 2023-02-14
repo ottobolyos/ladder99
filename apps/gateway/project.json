@@ -15,7 +15,7 @@
 			},
 			"executor": "@nrwl/webpack:webpack",
 			"options": {
-				"assets": ["apps/gateway/src/assets"],
+				"assets": [],
 				"compiler": "tsc",
 				"generatePackageJson": true,
 				"main": "apps/gateway/src/main.ts",
