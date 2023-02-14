@@ -1,22 +1,21 @@
 {
-	"name": "gateway-e2e",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"implicitDependencies": ["gateway"],
+	"name": "gateway-e2e",
 	"targets": {
 		"e2e": {
 			"executor": "@nrwl/jest:jest",
-			"outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
 			"options": {
-				"jestConfig": "apps/gateway-e2e/jest.config.ts",
-				"passWithNoTests": true
-			}
+				"jestConfig": "apps/gateway-e2e/jest.config.ts"
+			},
+			"outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"]
 		},
 		"lint": {
 			"executor": "@nrwl/linter:eslint",
-			"outputs": ["{options.outputFile}"],
 			"options": {
 				"lintFilePatterns": ["apps/gateway-e2e/**/*.{js,ts}"]
-			}
+			},
+			"outputs": ["{options.outputFile}"]
 		}
 	}
 }
