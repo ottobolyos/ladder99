@@ -1,4 +1,5 @@
 *.bak
+*.env
 *.launch
 *.mdfd
 *.orig
@@ -7,23 +8,24 @@
 .DS_Store
 .c9/
 .classpath
+.env
+.env.*
 .project
 .settings/
 .vscode/*
+/.log*
 /.sass-cache
 /connect.lock
-/coverage
+/coverage/
+/dist/
 /libpeerconnection.log
-/.log*
-/out-tsc
-/typings
+/out-tsc/
+/tmp/
 Thumbs.db
 desktop.ini
-dist/
 node_modules/
 npm-debug.log
 testem.log
-tmp
 yarn-error.log
 ~*
 
