@@ -13,6 +13,8 @@ All tasks that a fully implemented/done are simply removed from the list. If you
     - [ ] `create-from-scratch.md`;
     - [ ] `changelog.md`:
       - [ ] TODO: This should be later moved to repo root, ideally using a tool to auto-generate the changelog.
+    - [ ] describe how to use Nx and Nest:
+      - [ ] app/lib/module/controller/service generation (see [this](https://nx.dev/packages/nest/generators/application));
     - [ ] `upgrade-deps.md`:
       - use `pnpm nx migrate latest` and `pnpm nx migrate $app@latest`;
       - consider creating a script to get all deps and devDeps from `package.json`, remove Nx packages, and run `nx migrate` commands;
@@ -29,15 +31,9 @@ All tasks that a fully implemented/done are simply removed from the list. If you
 - create error-handling interface;
 - create `DatabaseModule`;
 - create `InitAppService`:
-- create `ExitAppService`:
-  - when implemented, create an API endpoint and run it in `docs:api` script in `package.json` instead of killing the process;
-  - it might be a good idea to move it (at least some portions, a function) to `shared` library, as exiting function will be needed in all microservices;
-
-  ```ts
-  // TODO: Create `ExitAppService`.
-  // gateway.get(ExitAppService).subscribeToShutdown(() => gateway.close())
-  ```
-
+- [done] create `ExitAppService`:
+  - [todo] it might be a good idea to move it (at least some portions, a function) to `shared` library, as exiting function will be needed in all microservices;
+- create `config` library;
 - create controllers, services (and possibly modules) for REST API and GraphQL API;
 - create run configs in `.idea`:
   - run/debug the app locally;
