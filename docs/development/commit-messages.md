@@ -62,7 +62,7 @@ pnpm commitlint <<< 'some commit message'
 
 pnpm commitlint <<< 'fix(gw): some commit message'
 ⧗   input: fix(gw): some commit message
-✖   scope must be one of [gateway, gateway|app, gateway|assets, gateway-e2e, gateway-e2e|gateway, gateway-e2e|support, development, index] [scope-enum]
+✖   scope must be one of [gateway, gateway|gateway, gateway|assets, gateway-e2e, gateway-e2e|gateway, gateway-e2e|support, development, index] [scope-enum]
 ✖   commit message with type "fix" may specify a scope, but if specified, it must be one of the following: "gateway", "gateway|app", "gateway|assets", "gateway-e2e", "gateway-e2e|gateway", "gateway-e2e|support" [selective-scope]
 
 ✖   found 2 problems, 0 warnings

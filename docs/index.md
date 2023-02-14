@@ -11,6 +11,9 @@
 ## Table of Contents
 
 - Development
-  - [Commit messages](development/commit_messages)
-  - [Roadmap](development/roadmap)
+  - [Commit messages](development/commit-messages)
   - [TODO](development/todo)
+- Usage
+  - [Environment variables](usage/environment-variables)
+- API
+  - [`api.json`](api/api.json)
