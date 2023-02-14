@@ -6,6 +6,7 @@ import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger'
 import {OgmaService} from '@ogma/nestjs-module'
 import {SwaggerTheme} from 'swagger-themes'
 
+import {ExitAppService} from './gateway/app/service/exit-app.service'
 import {GatewayModule} from './gateway/gateway.module'
 import {version} from '../../../package.json'
 
@@ -31,6 +32,7 @@ async function bootstrap(): Promise<void> {
 
 	// Subscribe to your service's shutdown event, run `gateway.close()` when emitted
 	app.enableShutdownHooks()
+	app.get(ExitAppService).subscribeToShutdown(() => app.close())
 
 	// Enable and configure Swagger
 	if (config.get('swagger.enabled')) {

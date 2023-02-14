@@ -11,7 +11,7 @@
     "clean": "rimraf dist tmp",
     "commit:check": "commitlint",
     "deps:update": "bash scripts/update_dependencies.sh",
-    "docs:api": "pnpm serve & pid=$! && sleep 10 && curl -sLo docs/api/api.json \"http://localhost:${L99_GW_PORT:-3333}/${L99_GW_API_PREFIX:-api}/${L99_GW_SWAGGER_PATH:-swagger}-json\"; kill -s STOP $pid",
+    "docs:api": "pnpm serve & curl --retry 10 --retry-all-errors --retry-delay 1 -sLo docs/api/api.json \"http://localhost:${L99_GW_PORT:-3333}/${L99_GW_API_PREFIX:-api}/${L99_GW_SWAGGER_PATH:-swagger}-json\"; curl -X PUT \"http://localhost:${L99_GW_PORT:-3333}/${L99_GW_API_PREFIX:-api}/app/exit\"",
     "lint:check": "nx run-many --all --target=lint",
     "lint:check:errors": "nx run-many --all --target=lint --quiet",
     "lint:fix": "nx run-many --all --target=lint --fix",

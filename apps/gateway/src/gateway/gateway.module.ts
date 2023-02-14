@@ -4,6 +4,7 @@ import {OgmaOptions} from '@ogma/logger'
 import {OgmaModule} from '@ogma/nestjs-module'
 import {FastifyParser} from '@ogma/platform-fastify'
 
+import {AppModule} from './app/app.module'
 import {DEFAULT_CONFIG} from './constant/default-config.constant'
 import {GatewayController} from './controller/gateway.controller'
 import {GatewayService} from './service/gateway.service'
@@ -46,6 +47,7 @@ const envConfig = {
 			},
 		}),
 		OgmaModule.forFeatures([GatewayService.name]),
+		AppModule,
 	],
 	providers: [GatewayService],
 })

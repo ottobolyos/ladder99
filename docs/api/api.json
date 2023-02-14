@@ -1,1 +1,34 @@
-{"openapi":"3.0.0","paths":{"/api":{"get":{"operationId":"GatewayController_getData","summary":"Demo endpoint","description":"Demo endpoint description","parameters":[],"responses":{"200":{"description":"Returns `Welcome to gateway!`"}},"tags":["gateway"]}}},"info":{"title":"Ladder99 Gateway","description":"API description of `@ladder99/gateway`","version":"1.0.0-dev.1","contact":{}},"tags":[{"name":"gateway","description":"Some tag"}],"servers":[{"url":"http://localhost:3333"}],"components":{"schemas":{}}}
+{
+	"openapi": "3.0.0",
+	"paths": {
+		"/api": {
+			"get": {
+				"operationId": "GatewayController_getData",
+				"summary": "Demo endpoint",
+				"description": "Demo endpoint description",
+				"parameters": [],
+				"responses": {"200": {"description": "Returns `Welcome to gateway!`"}},
+				"tags": ["gateway"]
+			}
+		},
+		"/api/app/exit": {
+			"put": {
+				"operationId": "AppController_exitApp",
+				"summary": "Exit the app",
+				"description": "Cleanly exit the app",
+				"parameters": [],
+				"responses": {"200": {"description": ""}},
+				"tags": ["gateway", "app"]
+			}
+		}
+	},
+	"info": {
+		"title": "Ladder99 Gateway",
+		"description": "API description of `@ladder99/gateway`",
+		"version": "1.0.0-dev.1",
+		"contact": {}
+	},
+	"tags": [{"name": "gateway", "description": "Some tag"}],
+	"servers": [{"url": "http://localhost:3333"}],
+	"components": {"schemas": {}}
+}
