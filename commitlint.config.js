@@ -56,7 +56,13 @@ const typesEnumScoped = {
 	docs: [],
 	...typesEnum
 		.filter(i => i !== 'chore' && i !== 'docs')
-		.reduce((a, c) => ({...a, [c]: c === 'style' ? [...appsLibsScopes, 'docs'] : appsLibsScopes}), {}),
+		.reduce(
+			(a, c) => ({
+				...a,
+				[c]: c === 'style' ? [...appsLibsScopes, 'docs'] : appsLibsScopes,
+			}),
+			{}
+		),
 }
 
 module.exports = {
