@@ -212,6 +212,19 @@ export class Metric {
       console.log(this.me, `increasing active bin`)
       await this.incrementBins(now, 'active')
     }
+
+    const utilDebugging = {
+      device: this.device.name,
+      now,
+      scheduleStart: schedule.start,
+      scheduleStop: schedule.stop,
+      scheduleHoliday: schedule.holiday,
+      isDuringShift,
+      start,
+      stop,
+      deviceWasActive
+    }
+
     if (isDuringShift) {
       const job = await this.getJob() // eg '123456' or 'NONE'
       // get setup time remaining for this job
@@ -227,8 +240,18 @@ export class Metric {
       }
       // save setup time remaining for this job
       this.setupTimes[job] = setupTime
+
+      utilDebugging.job = job
+      utilDebugging.deviceSetupTime = deviceSetupTime
+      utilDebugging.setupTime = setupTime
+      utilDebugging.minutes = minutes
+      utilDebugging.setupMinsRemaining = setupTime / minutes
     }
     this.previousStopTime = stop
+
+    utilDebugging.previousStopTime = this.previousStopTime
+
+    console.log(`utilization debugging :`, utilDebugging)
   }
 
   // get device setup time in milliseconds
