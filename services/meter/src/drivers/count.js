@@ -54,7 +54,22 @@ export class Metric {
     // console.log(`Count ${deviceName} - start,stop`, start, stop)
 
     // get last lifetime count, before start time
-    const record = await this.db.getLastRecord(deviceName, lifetimePath, start)
+    let record
+
+    try {
+      record = await this.db.getLastRecord(deviceName, lifetimePath, start)
+    } catch (e) {
+      console.log(`Otto : count.js : this.db.getLastRecord : ${deviceName} : ${lifetimePath} error :`, e)
+    }
+
+    console.log('Otto : count.js :', {
+      deviceName,
+      lifetimePath,
+      isRecord: !!record,
+      isRecordValue: !!record?.value,
+      record
+    })
+
     let lifetimeCount = record ? record.value : 0
     // console.log(`Count ${deviceName} - lifetimeCount`, lifetimeCount)
 
@@ -82,6 +97,7 @@ export class Metric {
       for (let row of rows.slice(1)) {
         // get delta from previous value
         const deltaCount = row.value - previousRow.value
+        console.log('Otto : count.js :', {deviceName, lifetimePath, deltaCount})
         if (deltaCount > 0) {
           lifetimeCount += deltaCount
           // write time, lifetime
@@ -102,6 +118,7 @@ export class Metric {
         }
         previousRow = row
       }
+      console.log('Otto : count.js :', {deviceName, lifetimePath, lifetimeRows})
       // console.log(`Count ${deviceName} - writing lifetime rows`, lifetimeRows)
       await this.db.addHistory(lifetimeRows)
     }

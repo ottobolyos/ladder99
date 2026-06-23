@@ -50,16 +50,33 @@ export class Metric {
     // get latest count value
     //. if count hasn't been updated in a long time, this could be slow,
     // unless we get the index working better.
-    const record = await this.db.getLastRecord(
-      this.device.path,
-      this.countPath,
-      stopTime
-    )
+    let record
+
+    try {
+      record = await this.db.getLastRecord(
+        this.device.path,
+        this.countPath,
+        stopTime
+      )
+    } catch(e) {
+      console.log(`Otto : bin.js : this.db.getLastRecord : ${this.device.alias} : ${this.countPath} : error :`, e)
+    }
+
+    console.log('Otto : bin.js :', {
+      deviceName: this.device.alias,
+      countPath: this.countPath,
+      isRecord: !!record,
+      isRecordValue: !!record?.value,
+      record
+    })
+
     if (!record) return
     const currentCount = record.value
 
     // get delta (will be zero for first encounter)
     let deltaCount = currentCount - (this.lastCount ?? currentCount)
+    
+    console.log('Otto : bin.js :', {deviceName: this.device.alias, countPath: this.countPath, deltaCount})
 
     // bug - had this AFTER the await below, so if db was slow, deltaCount would keep increasing.
     this.lastCount = currentCount

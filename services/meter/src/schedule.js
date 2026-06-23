@@ -5,6 +5,7 @@
 //   schedule:
 //     source: scheduleTable # use setup.schedule table (keyed on device path, date, with start, stop, downtimes)
 //     # source: devicesTable # use setup.devices table (keyed on device path, with start, stop) - use startTime and stopTime as defaults for new devices
+//     # source: shiftsTable # use setup.actual_shifts and setup.actual_shift_downtimes tables
 //     # source: dataItems
 //     # source: fixedTimes
 //     # startTime: '08:00' # string in 24h format
@@ -53,6 +54,7 @@ export class Schedule {
   }
 
   // get schedule from setup.schedule table, setup.devices table,
+  // setup.active_shifts and setup.active_shift_downtimes tables,
   // setup.yaml, or history table dataitems.
   // sets this.{ start, stop, holiday, downtimes }, where
   //   start is a Date object or 'HOLIDAY',
@@ -61,9 +63,17 @@ export class Schedule {
   //   downtimes is an array of { start, stop } objects, or null.
   // eg { start: 2022-01-13T11:00:00Z, stop: ..., holiday, downtimes }
   async poll() {
-    //
+    const now = new Date()
     const today = helpers.getTodayLocal(this.timezone) // eg '2023-02-16'
-    console.log(this.me, 'poll - today', today)
+
+    if (this.source) {
+      if (this.source === 'shiftsTable') {
+        console.log(this.me, 'poll - now', now)
+      } else {
+        console.log(this.me, 'poll - today', today)
+      }
+    }
+
     console.log(this.me, 'source', this.source) // eg 'scheduleTable'
 
     // use setup.schedule table
@@ -164,6 +174,66 @@ export class Schedule {
       this.start =
         this.holiday || helpers.getDate(startText, null, this.timezone) // 'HOLIDAY' or a Date object
       this.stop = this.holiday || helpers.getDate(stopText, null, this.timezone)
+    } else if (this.source === 'shiftsTable') {
+      // Get active shift and downtimes
+      const currentShift = await this.db.query(
+        `
+          SELECT
+            s.id,
+            s.type,
+            s.start_time AS start_time,
+            s.end_time AS end_time
+          FROM setup.actual_shifts s
+          JOIN setup.nodes n ON (s.device_id = n.device_id)
+          WHERE
+            n.props ->> 'path' = $1
+            AND (
+              (type = 'shift' AND $2 >= start_time AND $2 < end_time)
+              OR
+              (type = 'holiday' AND CAST($2 AS DATE) = start_time::DATE)
+            )
+          ORDER BY start_time DESC
+        `,
+        [this.device.path, now]
+      )
+      console.log('Otto : schedule.js : poll() :', {devicePath: this.device.path, now, rows: currentShift.rows})
+
+      if (currentShift.rows.length === 0) {
+        this.start = null
+        this.stop = null
+        this.holiday = null
+        this.downtimes = null
+      } else {
+        const firstRow = currentShift.rows[0]
+
+        if (firstRow.type === 'holiday') {
+          this.start = 'HOLIDAY'
+          this.stop = 'HOLIDAY'
+          this.holiday = 'HOLIDAY'
+          this.downtimes = null
+        } else {
+          const shiftDowntimes = await this.db.query(
+            `SELECT start_time, end_time FROM setup.actual_shift_downtimes where shift_id = $1;`,
+            [currentShift.rows[0].shift_id]
+          )
+
+          const downtimes = []
+
+          for (const row of shiftDowntimes.rows) {
+            if (row.downtime_start && row.downtime_end) {
+              downtimes.push({
+                start: new Date(row.downtime_start),
+                stop: new Date(row.downtime_end)
+              })
+            }
+          }
+
+          this.start = new Date(firstRow.start_time)
+          this.stop = new Date(firstRow.end_time)
+          this.holiday = null
+          this.downtimes = downtimes.length > 0 ? downtimes : null
+        }
+      }
     } else {
       console.log(this.me, 'unknown source', this.source)
       return
@@ -182,6 +252,9 @@ export class Schedule {
       // console.log(this.me, 'on holiday')
       return false
     }
+
+    console.log('Otto : schedule.js : isDuringShift :', {start: this.start, stop: this.stop, downtimes: this.downtimes, time: time.toISOString()})
+
     // console.log(this.me, 'check downtimes', this.downtimes)
     for (let downtime of this.downtimes || []) {
       // console.log(this.me, 'checking downtime', downtime)
@@ -190,6 +263,7 @@ export class Schedule {
         return false
       }
     }
+
     if (time >= this.start && time <= this.stop) {
       // console.log(this.me, 'in shift')
       return true

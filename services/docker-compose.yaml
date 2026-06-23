@@ -86,7 +86,9 @@ services:
   # see https://github.com/offen/docker-volume-backup
   backup:
     container_name: backup
-    image: offen/docker-volume-backup:latest
+    image: offen/docker-volume-backup:v2.43.0
+    labels:
+      docker-volume-backup.archive-pre: /bin/sh -c 'chown -R 1000:1000 /backup'
     profiles:
       - backup
     restart: unless-stopped
@@ -138,7 +140,7 @@ services:
       # unrelated files are not affected by the rotation mechanism.
       # (ie it'll prune only file starting with this prefix)
       BACKUP_RETENTION_DAYS: 3
-      BACKUP_CRON_EXPRESSION: '0 1 * * *' # 1am local time (cst)
+      BACKUP_CRON_EXPRESSION: '0 1 * * *' # 1am in the container time (UTC)
       #
       # cloud backup
       AWS_ENDPOINT: nyc3.digitaloceanspaces.com
@@ -361,7 +363,7 @@ services:
   # a visual programming environment
   nodered:
     container_name: nodered
-    image: nodered/node-red:2.1.6
+    image: nodered/node-red:4.0.8-22
     profiles:
       - nodered
     restart: unless-stopped
@@ -473,7 +475,8 @@ services:
   # store structure and time-series data
   postgres:
     container_name: postgres
-    image: timescale/timescaledb:2.7.0-pg13
+    # TODO: Create a migration for upgrading the images of the `postgres` container.
+    image: timescale/timescaledb:pg17.2-ts2.17.2
     # timescaledb 2.8 added time_bucket timezone support - but upgrading timescaledb is a pain
     # see https://docs.timescale.com/timescaledb/latest/how-to-guides/upgrades/upgrade-docker/
     # image: timescale/timescaledb:2.10.0-pg13
@@ -511,15 +514,15 @@ services:
       # and https://stackoverflow.com/questions/66753829/how-to-move-workspacea-simple-project-from-windows-file-system-mnt-to-linu
       # this seems to work, to use a subdir
     volumes:
-      - ../setups/$SETUP/volumes/postgres/data:/var/lib/postgresql/data
-      - backup:/backup # a docker volume - see backup service and end of this file
+      - ../setups/$SETUP/volumes/postgres/data:/home/postgres/pgdata/data
+      - backup:/home/postgres/pgdata/backup # a docker volume - see backup service and end of this file
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     labels:
       # see backup service for more settings
       # - 'docker-volume-backup.stop-during-backup=false'
       # note: we always write to the same filename
-      - "docker-volume-backup.exec-pre=/bin/sh -c 'pg_dumpall -U $PGUSER --clean --file /backup/dumpall.sql'"
+      docker-volume-backup.archive-pre: /bin/sh -c 'pg_dumpall -U $PGUSER --clean --file /home/postgres/pgdata/backup/dumpall.sql'
     restart: unless-stopped
     networks:
       - ladder99
@@ -533,7 +536,7 @@ services:
   # expose postgres data via REST API
   postgrest:
     container_name: postgrest
-    image: postgrest/postgrest:v10.1.1
+    image: postgrest/postgrest:v12.2.3
     ports:
       - '3010:3000'
     profiles:

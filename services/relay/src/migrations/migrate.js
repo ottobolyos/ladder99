@@ -25,7 +25,22 @@ const migrations = {
     7: ['041-schedule'],
     8: ['042-bins-metrics'],
     9: ['043-setup-devices'],
-  },
+    10: [
+      '050.0-create.idx-node-device-type.index.sql',
+      '050.1-create.idx-node-short-path.index.sql',
+      '050.2-create.idx-node-path.index.sql',
+      '050.3-create.setup-nodes.view.sql',
+      '051.0-create.is-device-id-valid.function.sql',
+      '051.1-create-setup-default-shifts.table.sql',
+      '051.2-create-check-default-shift-downtimes.function.sql',
+      '051.3-create-setup-default-shift-downtimes.table.sql',
+      '052.1-create-check-actual-shift-rules.function.sql',
+      '052.1-create-gist-extension.extension.sql',
+      '052.2-create-setup-actual-shifts.table.sql',
+      '052.3-create-check-actual-shift-downtimes.function.sql',
+      '052.4-create-setup-actual-shift-downtimes.table.sql'
+    ]
+  }
 }
 
 // handle migrations - use meta table
